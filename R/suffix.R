@@ -51,12 +51,10 @@ suffix_refresh <- function(){
   }
   
   #Read in and filter
-  connection <- url("https://www.publicsuffix.org/list/effective_tld_names.dat", method = "libcurl")
-  results <- readLines(connection, encoding = "UTF-8")
-  close(connection)
+  results <- readr::read_lines("https://www.publicsuffix.org/list/effective_tld_names.dat")
   
   # making an assumption that sections are broken by blank lines
-  blank <- which(results == "")
+  blank <- which(results %in% c("", " ", "  ", "  "))
   # and gotta know where the comments are
   comments <- grep(pattern = "^//", x=results)
   
